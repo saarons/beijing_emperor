@@ -4,7 +4,7 @@ require "active_support/all"
 
 require "beijing_emperor/base"
 require "beijing_emperor/errors"
-#require "beijing_emperor/callbacks"
+require "beijing_emperor/callbacks"
 require "beijing_emperor/serialization"
 
 BeijingEmperor::Base.class_eval do
@@ -12,4 +12,5 @@ BeijingEmperor::Base.class_eval do
   extend  ActiveModel::Naming
   include ActiveModel::Conversion
   include ActiveModel::Validations
+  include BeijingEmperor::Callbacks
 end

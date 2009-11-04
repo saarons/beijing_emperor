@@ -58,8 +58,12 @@ module BeijingEmperor
         end
       end
       
-      def all(*args)
-        find(:all, *args)
+      [:all, :first, :last].each do |modifier|
+        class_eval <<-EOS
+          def #{modifier}(*args)
+            find(:#{modifier}, *args)
+          end
+        EOS
       end
 
       private
