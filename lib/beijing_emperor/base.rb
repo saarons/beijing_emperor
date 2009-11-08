@@ -114,7 +114,7 @@ module BeijingEmperor
       def find_every(options)
         query      = self.database.query
         conditions = options[:conditions] || {}
-        limit      = options[:limit]      || -1
+        #limit      = options[:limit]      || -1
         order      = options[:order]      || :numasc
 
         # Ensure that the objects found are of the finding class.
@@ -122,7 +122,7 @@ module BeijingEmperor
         # with "bank".
         query.condition("", :strrx, class_regex.source)
         
-        query.limit(limit)
+        #query.limit(limit)
         query.order_by("created_at", order)
         conditions.each_pair do |field, value|
           query.condition(*build_condition(field, value))

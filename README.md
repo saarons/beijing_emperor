@@ -8,7 +8,6 @@ Requirements
 ------------
 
 * ruby-tokyotyrant (http://github.com/actsasflinn/ruby-tokyotyrant)
-* matchy (http://github.com/jnunemaker/matchy)
 
 
 
