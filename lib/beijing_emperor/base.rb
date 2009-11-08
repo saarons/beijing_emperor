@@ -28,7 +28,7 @@ module BeijingEmperor
         model_name.element
       end
 
-      def fields(*cols)
+      def column(*cols)
         options = cols.extract_options!
         cols.reject{ |x| x == :id || self.columns.include?(x) }.each do |col|
           self.columns[col] = options[:type] || :string
@@ -168,7 +168,7 @@ module BeijingEmperor
       end
     end
 
-    fields :created_at, :updated_at, :type => :datetime
+    column :created_at, :updated_at, :type => :datetime
 
     def initialize(attributes = {})
       @new_record = true

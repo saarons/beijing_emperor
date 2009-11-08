@@ -8,8 +8,8 @@ Time.zone = "UTC"
 BeijingEmperor::Base.setup!
 
 class Bank < BeijingEmperor::Base
-  fields :name
-  fields :code, :type => :integer
+  column :name
+  column :code, :type => :integer
 end
 
 class CreditUnion < Bank
