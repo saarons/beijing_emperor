@@ -9,6 +9,7 @@ class Bank < BeijingEmperor::Base
   column :name
   column :code, :type => :integer
   validates_presence_of :name
+  validates_inclusion_of :code, :within => 1..4
 end
 
 class CreditUnion < Bank

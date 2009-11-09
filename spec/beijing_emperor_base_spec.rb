@@ -5,22 +5,25 @@ describe "The bank account class" do
     BeijingEmperor::Base.database.clear
     @bank  = Bank.new(:name => "Wells Fargo", :code => 4)
     @bank2 = Bank.new(:name => "Citi",        :code => 2)
+    @bank3 = Bank.new(:name => "BofA",        :code => 1)
     @bank.save
-    @bank2.save    
+    @bank2.save
+    @bank3.save
   end
   
   it "has a friendly name" do
     Bank.friendly_name.should == "bank"
   end
   
-  it "will find a specific bank" do
+  it "will find (a) specific bank(s)" do
     Bank.find(@bank.id).should == @bank
     Bank.find([@bank.id]).should == [@bank]
+    Bank.find([@bank3.id, @bank.id]).should == [@bank3, @bank]
   end
   
   it "will find all banks" do
-    Bank.all.should == [@bank, @bank2]
-    Bank.find(:all).should == [@bank, @bank2]
+    Bank.all.should == [@bank, @bank2, @bank3]
+    Bank.find(:all).should == [@bank, @bank2, @bank3]
   end
   
   it "will find the first bank" do
@@ -29,21 +32,21 @@ describe "The bank account class" do
   end
   
   it "will find the last bank" do
-    Bank.last.should == @bank2
-    Bank.find(:last).should == @bank2
+    Bank.last.should == @bank3
+    Bank.find(:last).should == @bank3
   end
   
   it "will find all with conditions" do
     Bank.find(:all, :conditions => {:name => "Wells Fargo"}).should == [@bank]
     Bank.find(:all, :conditions => {:name => ["==","Wells Fargo"]}).should == [@bank]
-    Bank.find(:all, :conditions => {:name => ["!=","Wells Fargo"]}).should_not include @bank
+    Bank.find(:all, :conditions => {:name => ["!=","Wells Fargo"]}).should == [@bank2, @bank3]
   end
   
   it "will find all with (between) conditions" do
-    Bank.find(:all, :conditions => {:code => 1..5}).should == [@bank, @bank2]
-    Bank.find(:all, :conditions => {:code => ["><", "1 5"]}).should == [@bank, @bank2]
+    Bank.find(:all, :conditions => {:code => 1..5}).should == [@bank, @bank2, @bank3]
+    Bank.find(:all, :conditions => {:code => ["><", "1 5"]}).should == [@bank, @bank2, @bank3]
     Bank.find(:all, :conditions => {:code => ["<>", 1..3]}).should_not include @bank2
-    Bank.find(:all, :conditions => {:code => ["<>", "1 3"]}).should_not include @bank2    
+    Bank.find(:all, :conditions => {:code => ["<>", "1 3"]}).should_not include @bank2
   end
   
   it "will find all with (equal number) conditions" do

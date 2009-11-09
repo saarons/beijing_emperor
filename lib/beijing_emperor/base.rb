@@ -93,12 +93,15 @@ module BeijingEmperor
       end
 
       def find_initial(options)
-        options.update(:limit => 1)
-        find_every(options).first
+        query = self.database.query
+        query.condition("", :strrx, class_regex.source)
+        ids = query.search
+        id = options[:order] == :last ? ids.last : ids.first
+        find_one(id, options)
       end
 
       def find_last(options)
-        options.update(:order => :numdesc)
+        options.update(:order => :last)
         find_initial(options)
       end
 
@@ -114,20 +117,24 @@ module BeijingEmperor
       def find_every(options)
         query      = self.database.query
         conditions = options[:conditions] || {}
-        #limit      = options[:limit]      || -1
-        order      = options[:order]      || :numasc
+        limit      = options[:limit]      || -1
+        offset     = options[:offset]     || 0
 
         # Ensure that the objects found are of the finding class.
         # e.g. Bank.find(:all) returns all objects that have a key starting
         # with "bank".
         query.condition("", :strrx, class_regex.source)
-        
-        #query.limit(limit)
-        query.order_by("created_at", order)
+
+        if order = options[:order]
+          order = [order, :strdesc] unless order.is_a?(Array)
+          query.order_by(order[0].to_s, order[1])
+        end
+
+        query.limit(limit, offset)
         conditions.each_pair do |field, value|
           query.condition(*build_condition(field, value))
         end
-
+        
         query.get.map { |record| instantiate(record) }
       end
       
@@ -154,6 +161,7 @@ module BeijingEmperor
       end
 
       def class_regex
+        # DON'T MESS WITH THE REGEX!
         @_class_regex ||= /^#{friendly_name}_[a-z0-9]{6}$/
       end
 
