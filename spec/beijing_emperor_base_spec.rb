@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__),'spec_helper.rb')
 
-describe "The bank account class" do
+describe "The bank class" do
   before do
     BeijingEmperor::Base.database.clear
     @bank  = Bank.new(:name => "Wells Fargo", :code => 4)
@@ -54,7 +54,7 @@ describe "The bank account class" do
   end
 end
 
-describe "A bank account instance" do
+describe "A bank instance" do
   before do
     @bank = Bank.new(:name => "Wells Fargo", :code => 4)
   end
