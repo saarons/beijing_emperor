@@ -1,4 +1,4 @@
-['lib', 'vendor'].each { |dir| $:.unshift File.join(File.dirname(__FILE__),'..',dir) }
+$:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
 require "beijing_emperor"
 

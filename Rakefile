@@ -13,8 +13,6 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.homepage = "http://github.com/saarons/beijing_emperor"
   gemspec.authors = ["Sam Aarons"]
   
-  gemspec.files = FileList['lib/**/*.rb', '[A-Z]*', 'test/**/*']
-  
   gemspec.required_ruby_version = ">= 1.9.1"
   
   gemspec.add_dependency "ruby-tokyotyrant", ">= 0.3.1"
@@ -26,5 +24,6 @@ end
 
 desc "Run all tests"
 Spec::Rake::SpecTask.new('test') do |t|
+  t.spec_opts = ["--color"]
   t.pattern = "test/**/*_spec.rb"
 end
